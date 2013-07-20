@@ -29,7 +29,7 @@ class syntax_plugin_profiles extends DokuWiki_Syntax_Plugin {
     }
 
     function connectTo($mode) {
-        $this->Lexer->addSpecialPattern('{{(?:facebook|github|googleplus|linkedin|twitter)(?:|\.page|\.link|\.profile):.*?}}',$mode,'plugin_profiles');
+        $this->Lexer->addSpecialPattern('{{(?:facebook|github|googleplus|linkedin|twitter)(?:|\..*?):.*?}}',$mode,'plugin_profiles');
     }
  
     function handle($match, $state, $pos, &$handler){
@@ -37,7 +37,7 @@ class syntax_plugin_profiles extends DokuWiki_Syntax_Plugin {
         switch ($state) {
 
           case DOKU_LEXER_SPECIAL : 
-            preg_match ('/{{(?P<service>facebook|github|googleplus|linkedin|twitter)(?P<type>|\.page|\.link|\.profile):(?P<parameter>.*?)}}/', $match, $data);
+            preg_match ('/{{(?P<service>facebook|github|googleplus|linkedin|twitter)(?P<type>|\..*?):(?P<parameter>.*?)}}/', $match, $data);
             $params = array ();
             $params["service"] = $data["service"];
             $params["type"] = $data["type"];
@@ -56,8 +56,9 @@ class syntax_plugin_profiles extends DokuWiki_Syntax_Plugin {
 
               $service = $indata["service"];
               $type = $indata["type"];
+              if (strlen ($type)>0) $type = substr ($type, 1);
               $p = explode ("|", $indata["parameter"]);
-              $parameter = urlencode($p[0]);
+              $parameter = htmlspecialchars($p[0]);
               if (strlen ($p[1])==0) $name = htmlspecialchars($p[0]);
               else $name = htmlspecialchars($p[1]);
               $ahref = $this->links[$service];
@@ -79,9 +80,8 @@ class syntax_plugin_profiles extends DokuWiki_Syntax_Plugin {
               else
               if ($service=="linkedin")
               {
-                if ($type == "profile") $ahref = $ahref."profile/view?id=".$parameter;
-                else
-                if ($type == "page" || $type == "") $ahref = $ahref."in/".$parameter;
+                if ($type == "profile" || $type == "") $ahref = $ahref."in/".$parameter;
+                else if ($type == "page") $ahref = $ahref.$parameter;
               }
               else
               if ($service=="twitter")
