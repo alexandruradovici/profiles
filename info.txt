@@ -5,4 +5,4 @@ email  msg4alex@gmail.com
 date   2013-07-20
 name   Profiles Plugin
 desc   Add Facebook, GitHub, Google Plus, Linkedin and Twitter profile links
-# url    http://www.dokuwiki.org/plugin:profile
+
