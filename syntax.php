@@ -29,7 +29,7 @@ class syntax_plugin_profiles extends DokuWiki_Syntax_Plugin {
     }
 
     function connectTo($mode) {
-        $this->Lexer->addSpecialPattern('{{(?:facebook|github|googleplus|linkedin|twitter)(?:|\.page|\.link):.*?}}',$mode,'plugin_profiles');
+        $this->Lexer->addSpecialPattern('{{(?:facebook|github|googleplus|linkedin|twitter)(?:|\.page|\.link|\.profile):.*?}}',$mode,'plugin_profiles');
     }
  
     function handle($match, $state, $pos, &$handler){
@@ -37,7 +37,7 @@ class syntax_plugin_profiles extends DokuWiki_Syntax_Plugin {
         switch ($state) {
 
           case DOKU_LEXER_SPECIAL : 
-            preg_match ('/{{(?P<service>facebook|github|googleplus|linkedin|twitter)(?P<type>|\.page|\.link):(?P<parameter>.*?)}}/', $match, $data);
+            preg_match ('/{{(?P<service>facebook|github|googleplus|linkedin|twitter)(?P<type>|\.page|\.link|\.profile):(?P<parameter>.*?)}}/', $match, $data);
             $params = array ();
             $params["service"] = $data["service"];
             $params["type"] = $data["type"];
