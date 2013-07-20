@@ -3,6 +3,6 @@
 author Alexandru Radovici
 email  msg4alex@gmail.com
 date   2013-07-20
-name   Profile Plugin
-desc   Add Facebook, Linkedin and twitter profiles
-url    http://www.dokuwiki.org/plugin:profile
+name   Profiles Plugin
+desc   Add Facebook, GitHub, Google Plus, Linkedin and Twitter profile links
+# url    http://www.dokuwiki.org/plugin:profile
