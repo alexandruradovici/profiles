@@ -88,7 +88,7 @@ class syntax_plugin_profiles extends DokuWiki_Syntax_Plugin {
               {
                 if ($type != "link") $ahref = $ahref.$parameter;
               }
-              $renderer->doc .= '<div><a href='.$ahref.' target="_blank"><img src="/lib/plugins/profiles/images/'.$service.'_icon.png" alt="'.$service.'" border="0"> '.$name.'</a></div>';
+              $renderer->doc .= '<a href='.$ahref.' target="_blank"><img src="/lib/plugins/profiles/images/'.$service.'_icon.png" alt="'.$service.'" border="0"> '.$name.'</a>';
               
               return true;
         }
