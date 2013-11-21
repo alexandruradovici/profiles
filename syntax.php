@@ -12,7 +12,7 @@ require_once(DOKU_PLUGIN.'syntax.php');
 
 class syntax_plugin_profiles extends DokuWiki_Syntax_Plugin {
  
-    var $links = array ("facebook" => "https://www.facebook.com/", "github" => "https://github.com/", "googleplus" => "https://plus.google.com/", "linkedin" => "http://www.linkedin.com/", "twitter" => "https://twitter.com/");
+    var $links = array ("facebook" => "https://www.facebook.com/", "github" => "https://github.com/", "googleplus" => "https://plus.google.com/", "linkedin" => "http://www.linkedin.com/", "twitter" => "https://twitter.com/", "bitbucket" => "https://bitbucket.org/", "blog" => "http://", "web" => "http://");
   
     function getInfo(){
         return confToHash(dirname(__FILE__).'/info.txt');
@@ -29,7 +29,7 @@ class syntax_plugin_profiles extends DokuWiki_Syntax_Plugin {
     }
 
     function connectTo($mode) {
-        $this->Lexer->addSpecialPattern('{{(?:facebook|github|googleplus|linkedin|twitter)(?:|\..*?):.*?}}',$mode,'plugin_profiles');
+        $this->Lexer->addSpecialPattern('{{(?:facebook|github|googleplus|linkedin|twitter|blog|bitbucket|web)(?:|\..*?):.*?}}',$mode,'plugin_profiles');
     }
  
     function handle($match, $state, $pos, &$handler){
@@ -37,7 +37,7 @@ class syntax_plugin_profiles extends DokuWiki_Syntax_Plugin {
         switch ($state) {
 
           case DOKU_LEXER_SPECIAL : 
-            preg_match ('/{{(?P<service>facebook|github|googleplus|linkedin|twitter)(?P<type>|\..*?):(?P<parameter>.*?)}}/', $match, $data);
+            preg_match ('/{{(?P<service>facebook|github|googleplus|linkedin|twitter|blog|bitbucket|web)(?P<type>|\..*?):(?P<parameter>.*?)}}/', $match, $data);
             $params = array ();
             $params["service"] = $data["service"];
             $params["type"] = $data["type"];
@@ -88,7 +88,17 @@ class syntax_plugin_profiles extends DokuWiki_Syntax_Plugin {
               {
                 if ($type != "link") $ahref = $ahref.$parameter;
               }
-              $renderer->doc .= '<a href='.$ahref.' target="_blank"><img src="' . DOKU_BASE . '/lib/plugins/profiles/images/'.$service.'_icon.png" alt="'.$service.'" border="0"> '.$name.'</a>';
+              else
+              if ($service=="bitbucket")
+              {
+                if ($type != "link") $ahref = $ahref.$parameter;
+              }
+              else
+              if ($service=="blog"||$service=="web")
+              {
+                if ($type != "link") $ahref = $ahref.$parameter;
+              }
+              $renderer->doc .= '<a href='.$ahref.' target="_blank"><img src="' . DOKU_BASE . 'lib/plugins/profiles/images/'.$service.'_icon.png" alt="'.$service.'" border="0"> '.$name.'</a>';
               
               return true;
         }
