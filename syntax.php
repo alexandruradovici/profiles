@@ -63,6 +63,7 @@ class syntax_plugin_profiles extends DokuWiki_Syntax_Plugin {
               else $name = htmlspecialchars($p[1]);
               $ahref = $this->links[$service];
               if ($type == "link") $ahref = $parameter;
+              else
               if ($service=="facebook")
               {
                 if ($type == "profile" || $type == "page" || $type == "") $ahref = $ahref.$parameter;
